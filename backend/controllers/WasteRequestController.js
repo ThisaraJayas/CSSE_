@@ -31,3 +31,25 @@ export const createWasteRequest = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+
+export const getWasteRequestsByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const wasteRequests = await WasteRequest.find({ userId });
+
+    if (!wasteRequests.length) {
+      return res.status(404).json({ message: 'No waste requests found for this user.' });
+    }
+
+    return res.status(200).json({
+      message: 'Waste requests retrieved successfully',
+      wasteRequests,
+    });
+
+  } catch (error) {
+    console.error('Error fetching waste requests:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};

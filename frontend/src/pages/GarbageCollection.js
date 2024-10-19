@@ -3,12 +3,35 @@ import TabSection from '../components/TabSection';
 import Modal from '../components/PaymentDialog'; // Import the Modal component
 import TabBar from '../components/TabBar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../middleware/AuthContext';
 
 export default function GarbageCollection() {
   const [activeTab, setActiveTab] = useState('WasteCollection');
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null); // State to hold selected payment details
   const [isMenuOpen, setMenuOpen] = useState(false); //nav
+
+  const [wasteRequests, setWasteRequests] = useState([]);
+  const { user, loading } = useAuth();
+  const userId = user?._id
+
+  useEffect(() => {
+    
+    const fetchRequests = async () => {
+      try {
+        
+        const response = await axios.get(`http://localhost:4000/api/waste-requests/user/${userId}`);
+        setWasteRequests(response.data.wasteRequests);
+      } catch (error) {
+        console.error('Error fetching waste requests:', error);
+      }
+    };
+
+    fetchRequests();
+  }, [userId]);
+
+
   const dropdownRef = useRef(null);
    // Toggle the profile dropdown menu
    const toggleMenu = () => {
@@ -30,7 +53,18 @@ export default function GarbageCollection() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Completed':
+        return 'text-green-500';
+      case 'Cancelled':
+        return 'text-red-500';
+      case 'Pending':
+        return 'text-gray-400'; // Ash color for pending status
+      default:
+        return 'text-gray-500'; // Default color if status is unknown
+    }
+  };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -43,14 +77,20 @@ export default function GarbageCollection() {
     { status: 'Completed', id: 'RE1H-876', date: '31st June 2024', statusColor: 'text-green-500' },
   ];
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' }; // e.g., "October 22, 2024"
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
-    <div className="payment-page flex flex-col min-h-screen bg-gray-50 p-4">
+    <>
+    <div className="payment-page flex flex-col min-h-screen p-8 bg-gray-50 ">
        {/* Header Section */}
-       <header className="fixed top-0 left-0 right-0 z-20 page-header flex justify-between items-center p-4 bg-white ">
-        <h2 className="text-xl font-bold">Payments</h2>
+       <header className="fixed  top-0 left-0 right-0 z-20 page-header flex justify-between items-center p-4 bg-white ">
+        <h2 className="text-xl font-bold">Garbage Collect</h2>
 
         {/* Profile Icon and Dropdown */}
-        <div className="relative hidden md:block"> {/* Hide on small screens */}
+        <div className="relative  hidden md:block"> {/* Hide on small screens */}
           <button
             className="profile-button text-2xl focus:outline-none"
             onClick={toggleMenu}
@@ -79,15 +119,36 @@ export default function GarbageCollection() {
 
           {/* Dropdown Menu */}
           {isMenuOpen && (
-            <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-30">
-              <ul className="py-2">
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Collections')}>Collection</li>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Request')}>Request</li>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Profile')}>Profile</li>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Payments')}>Payments</li>
-              </ul>
-            </div>
-          )}
+  <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-30">
+    <ul className="py-2">
+      <Link to="/collection">
+        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Collections')}>
+          Collection
+        </li>
+      </Link>
+      <Link to="/request">
+        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Request')}>
+          Request
+        </li>
+      </Link>
+      <Link to="/profile">
+        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Profile')}>
+          Profile
+        </li>
+      </Link>
+      <Link to="/payments">
+        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Payments')}>
+          Payments
+        </li>
+      </Link>
+      <Link to="/dashboard">
+        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => setActiveTab('Dashboard')}>
+          Dashboard
+        </li>
+      </Link>
+    </ul>
+  </div>
+)}
         </div>
       </header>
 
@@ -97,7 +158,7 @@ export default function GarbageCollection() {
       </div>
 
       {/* Spacer for header and tab section */}
-      <div className="pt-28"></div>
+      <div className="pt-14"></div>
 
       {/* Sort and Request Buttons */}
       <div className="flex justify-between items-center mb-4">
@@ -112,27 +173,33 @@ export default function GarbageCollection() {
       </div>
 
       {/* Payments List Section */}
-      <div className="space-y-4">
-        {payments.map((payment, index) => (
+      <div className="space-y-4 m-10">
+        {wasteRequests.map((waste, index) => (
           <div
             key={index}
-            className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg"
+            className="flex justify-between items-center p-8 bg-white shadow-md rounded-lg"
           >
             <div className="flex flex-col">
-              <span className={`${payment.statusColor} font-bold`}>{payment.status}</span>
-              <span className="text-xl font-semibold">{payment.id}</span>
+            <span className={`${getStatusColor(waste.status)} font-semibold text-xl`}>
+                {waste?.status}
+              </span>
+              <span className="text-xl mt-2 font-bold">{waste.notes}</span>
             </div>
             <div className="text-right text-sm text-gray-500">
+              
               <span>Requested Date</span>
               <br />
-              <span>{payment.date}</span>
+              <span>{formatDate(waste.date)}</span>
             </div>
           </div>
         ))}
-         <div className="md:hidden block">
-        <TabBar />
+         
+        
+     
       </div>
-      </div>
+      
     </div>
+    <TabBar />
+    </>
   );
 }

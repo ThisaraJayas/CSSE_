@@ -20,6 +20,10 @@ const WasteReqSchema = new mongoose.Schema(
         ref: 'User', // Assuming you have a User model for user data
         required: true,
       },
+      status: {
+        type: String,
+        default: 'Pending', // Default value for status
+      },
   },
   { timestamps: true } // This will add createdAt and updatedAt fields automatically
 );

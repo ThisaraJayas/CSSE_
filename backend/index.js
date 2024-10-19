@@ -5,7 +5,13 @@ import connectDB from './config/db.js';
 import binRoutes from './routes/binRoutes.js';
 import userRoutes from './routes/userRoutes.js'; // Import user routes
 import { authRoutes } from './routes/authRoutes.js';
+
 import WasteReqRoute from './routes/wasteRequestRoutes.js';
+
+import WasteReqRoute from './routes/wasteRequestRoutes.js'
+import WasteTypeRoute from './routes/wasteTypeRoutes.js'
+import RefundRoute from './routes/refundRoute.js'
+
 
 dotenv.config();
 const app = express();
@@ -29,6 +35,8 @@ app.use('/api', authRoutes);
 app.use('/api', binRoutes); // Bin routes
 app.use('/api', userRoutes); // User routes
 app.use('/api', WasteReqRoute);
+app.use('/api', WasteTypeRoute);
+app.use('/api', RefundRoute);
 
 // Default route
 app.get('/', (req, res) => {

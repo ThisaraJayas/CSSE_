@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { FaTrash, FaEnvelope, FaUser, FaCreditCard } from 'react-icons/fa';
 
 const TabBar = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Collection'); // Default active tab
 
   const tabs = [
     { name: 'Collection', icon: <FaTrash />, path: '/collections' },
     { name: 'Requests', icon: <FaEnvelope />, path: '/requests' },
-    { name: 'Profile', icon: <FaUser />, path: '/profile' },
     { name: 'Payments', icon: <FaCreditCard />, path: '/payments' },
-  ];
+    { name: 'Garbage', icon: <FaEnvelope />, path: '/wastecollection' },
 
-  const handleTabClick = (tabName, path) => {
-    setActiveTab(tabName); // Update active tab
-    navigate(path); // Navigate to the corresponding path
-  };
+  ];
 
   return (
     <div className="tab-bar flex justify-around items-center bg-gray-800 text-white py-3 shadow-lg">
       {tabs.map((tab) => (
-        <div
+        <Link
           key={tab.name}
+          to={tab.path} // Navigate to the path
           className="tab-item flex flex-col items-center cursor-pointer transition-all duration-300"
-          onClick={() => handleTabClick(tab.name, tab.path)}
+          onClick={() => setActiveTab(tab.name)} // Set active tab
         >
           {/* Change icon color based on active state */}
           {React.cloneElement(tab.icon, {
@@ -39,7 +35,7 @@ const TabBar = () => {
           >
             {tab.name}
           </span>
-        </div>
+        </Link>
       ))}
     </div>
   );

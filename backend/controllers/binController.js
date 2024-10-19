@@ -128,6 +128,7 @@ export const GetBinByUserId = async (req, res) => {
   }
 };
 
+
 export const addWeight = async (req, res) => {
   try {
     const { binId } = req.params;
@@ -145,3 +146,25 @@ export const addWeight = async (req, res) => {
       .json({ message: "Error adding weight to bin", error: err.message });
   }
 };
+
+// Get all bins
+// export const getAllBins = async (req, res) => {
+//   try {
+//     const bins = await Bin.find(); // Retrieve all bins from the database
+
+//     if (!bins.length) {
+//       return res.status(404).json({ message: 'No bins found' });
+//     }
+
+//     await bin.deleteOne();
+
+
+//     res.status(200).json({ message: 'Bin rejected and removed' });
+//   } catch (err) {
+//     res
+//       .status(500)
+//       .json({ message: 'Error rejecting bin', error: err.message });
+//   }
+// };
+
+

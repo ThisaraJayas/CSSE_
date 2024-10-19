@@ -35,11 +35,11 @@ const SpeWasteCollection = () => {
 
     try {
       const token = localStorage.getItem('token'); // Retrieve the auth token
-      if (!token) {
-        setError('No token found. Please log in.');
-        navigate('/signin');
-        return;
-      }
+      // if (!token) {
+      //   setError('No token found. Please log in.');
+      //   navigate('/signin');
+      //   return;
+      // }
 
       // Send the POST request to the server
       const response = await axios.post(API_ENDPOINTS.POST_WASTE_COLLECTION, requestData, {
@@ -68,19 +68,19 @@ const SpeWasteCollection = () => {
       console.log('User object:', user); // Debugging statement to check user object
 
       // Check for user authentication
-      if (!user) {
-        setError('User not authenticated. Please log in.');
-        navigate('/signin');
-        return;
-      }
+      // if (!user) {
+      //   setError('User not authenticated. Please log in.');
+      //   navigate('/signin');
+      //   return;
+      // }
 
       try {
         const token = localStorage.getItem('token');
-        if (!token) {
-          setError('No token found. Please log in.');
-          navigate('/signin');
-          return;
-        }
+        // if (!token) {
+        //   setError('No token found. Please log in.');
+        //   navigate('/signin');
+        //   return;
+        // }
 
         // Fetch all bins from the API
         const response = await axios.get(API_ENDPOINTS.GET_BINS, {
@@ -118,12 +118,12 @@ const SpeWasteCollection = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <h1 className="text-2xl font-bold text-center mb-8">Waste Bin Collection Request</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Waste Collection Request</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Map section */}
         <div className="lg:h-[500px] h-[300px] flex flex-col justify-start">
-          <h2 className="text-lg font-semibold mb-4">Pin Bin Location</h2>
+          <h2 className="text-lg font-semibold mt-9 mb-4">Pin Bin Location</h2>
           <MapComponent setSelectedLocation={setSelectedLocation} selectedLocation={selectedLocation} />
         </div>
 

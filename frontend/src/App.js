@@ -18,9 +18,13 @@ import WasteCollection from './pages/WasteCollection';
 import SpeWasteCollection from './pages/WasteCollection';
 
 import SubmitReview from './pages/SubmitReview';
+import ManageWasteType from './dashboard/ManageWasteType';
+import ManageRefund from './dashboard/ManageRefund';
+import Dashboard from './dashboard/Dashboard';
 import VerifyBinPage from './pages/VerifyBin';
 import TabSection from './components/TabSection';
 import BinDetails from './pages/Bindetails';
+
 
 function App() {
   return (
@@ -36,13 +40,20 @@ function App() {
           <Route path="/requests" element={<VerifyBinPage />} />
 
           <Route path="/addwaste" element={<AddWasteType />} />
-          <Route path="/wastetype" element={<WasteTypesTable />} />
+          
 
           <Route path="/payments" element={<PaymentList/>}/>
 
-          <Route path="/refund" element={<RefundPage/>}/>
+          
           <Route path="/wastecollection" element={<GarbageCollection/>}/>
           <Route path="/specialwastecollection" element={<SpeWasteCollection/>}/>
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="wastetypeman" element={<ManageWasteType />} />
+            <Route path="wastetype" element={<WasteTypesTable />} />
+            <Route path="managerefund" element={<ManageRefund />} />
+            <Route path="addwaste" element={<AddWasteType />} />
+            <Route path="refund" element={<RefundPage/>}/>
+          </Route>
 
           
 

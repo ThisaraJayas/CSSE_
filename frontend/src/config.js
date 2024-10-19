@@ -10,6 +10,7 @@ const API_ENDPOINTS = {
 
   POST_WASTE_COLLECTION: `${BASE_URL}/postwasterequest`,
 
+
   VERIFY_BIN: "/api/bins/:binId",
   REJECT_BIN: "/api/bins/:binId/reject",
 };
