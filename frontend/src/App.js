@@ -19,6 +19,8 @@ import SpeWasteCollection from './pages/WasteCollection';
 
 import SubmitReview from './pages/SubmitReview';
 import VerifyBinPage from './pages/VerifyBin';
+import TabSection from './components/TabSection';
+import BinDetails from './pages/Bindetails';
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
 
 
           <Route path="/submit-review" element={<SubmitReview />} />
+          <Route path="/waste-add/:binId" element={<BinDetails />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const binSchema = new mongoose.Schema(
   {
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     binType: { type: String, required: true },
@@ -15,12 +15,14 @@ const binSchema = new mongoose.Schema(
       },
       required: true,
     },
+    weight: { type: Number },
     qrCode: { type: String }, // QR code generated after verification
     isVerified: { type: Boolean, default: false },
+    wasteKilos: { type: Number },
   },
   { timestamps: true }
 );
 
-const Bin = mongoose.model('Bin', binSchema);
+const Bin = mongoose.model("Bin", binSchema);
 
 export default Bin;

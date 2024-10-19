@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import TabBar from '../components/TabBar';
-import QRLinkCard from '../components/QRLinkCard';
-import TabSection from '../components/TabSection';
-import QRScanner from '../components/QRScanner'; // Import the QRScanner component
+import React, { useState, useCallback } from "react";
+import TabBar from "../components/TabBar";
+import QRLinkCard from "../components/QRLinkCard";
+import TabSection from "../components/TabSection";
+import QRScanner from "../components/QRScanner"; // Import the QRScanner component
+import axios from "axios";
 
 const BinCollection = () => {
-  const [activeTab, setActiveTab] = useState('Collect');
+  const [activeTab, setActiveTab] = useState("Collect");
   const [isScanning, setIsScanning] = useState(false); // State to manage scanning mode
   const [binData, setBinData] = useState(null); // State to store scanned bin data
+  const [openWeightModel, setOpenWeightModel] = useState(false);
+  const [weight, setWeight] = useState(null);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -16,6 +19,21 @@ const BinCollection = () => {
   const handleContinue = () => {
     setIsScanning(true); // Activate scanning mode on continue button click
   };
+
+  const onWeightSubmit = useCallback(async () => {
+    const response = await axios.put(
+      `http://localhost:4000/api/bins/${binData}/weight`,
+      {
+        weight: parseFloat(weight),
+      }
+    );
+
+    if (response.data) {
+      setBinData(null);
+      setWeight(null);
+      setOpenWeightModel(false);
+    }
+  }, [binData, weight]);
 
   return (
     <div className="bin-collection-page flex flex-col min-h-screen">
@@ -43,7 +61,8 @@ const BinCollection = () => {
         <QRScanner
           onScanComplete={(data) => {
             setBinData(data);
-            setIsScanning(false); // Exit scanning mode after scanning
+            setIsScanning(false);
+            setOpenWeightModel(true);
           }}
           onClose={() => setIsScanning(false)}
         />
@@ -57,7 +76,31 @@ const BinCollection = () => {
           </button>
         </div>
       )}
-
+      {openWeightModel && (
+        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+          <div className="modal-content bg-white rounded-lg p-6 max-w-md w-full mx-auto">
+            <h2 className="text-lg font-semibold mb-4">Add weight</h2>
+            <label htmlFor="name" className="block mb-2">
+              Weight (KG)
+            </label>
+            <input
+              id="weight"
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter weight in KG"
+              required
+            />
+            <button
+              className="close-button mt-4 bg-red-500 text-white px-4 py-2 rounded w-full"
+              onClick={onWeightSubmit}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
       <TabBar />
     </div>
   );
