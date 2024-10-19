@@ -4,12 +4,14 @@ import QRLinkCard from "../components/QRLinkCard";
 import TabSection from "../components/TabSection";
 import QRScanner from "../components/QRScanner"; // Import the QRScanner component
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const BinCollection = () => {
   const [activeTab, setActiveTab] = useState("Collect");
   const [isScanning, setIsScanning] = useState(false); // State to manage scanning mode
   const [binData, setBinData] = useState(null); // State to store scanned bin data
   const [openWeightModel, setOpenWeightModel] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [weight, setWeight] = useState(null);
 
   const handleTabChange = (tab) => {
@@ -32,6 +34,7 @@ const BinCollection = () => {
       setBinData(null);
       setWeight(null);
       setOpenWeightModel(false);
+      setSuccess(true);
     }
   }, [binData, weight]);
 
@@ -93,11 +96,41 @@ const BinCollection = () => {
               required
             />
             <button
-              className="close-button mt-4 bg-red-500 text-white px-4 py-2 rounded w-full"
+              className="close-button mt-4 bg-blue-500 text-white px-4 py-2 rounded w-full"
               onClick={onWeightSubmit}
             >
               Submit
             </button>
+          </div>
+        </div>
+      )}
+      {success && (
+        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+          <div className="modal-content bg-white rounded-lg p-6 max-w-md w-full mx-auto">
+            <div className="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                className="w-12 h-12 text-green-500 mb-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <h2 className="text-lg font-semibold mb-4 mx-auto">
+                {weight ?? 0} kg added successfully
+              </h2>
+            </div>
+            <Link to="/">
+              <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded w-full">
+                Back to Home
+              </button>
+            </Link>
           </div>
         </div>
       )}
