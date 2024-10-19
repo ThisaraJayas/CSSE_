@@ -22,6 +22,7 @@ import ManageWasteType from './dashboard/ManageWasteType';
 import ManageRefund from './dashboard/ManageRefund';
 import Dashboard from './dashboard/Dashboard';
 import VerifyBinPage from './pages/VerifyBin';
+import WasteRequestsTable from './pages/WasteRequestTable';
 
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
 
           <Route path="/addwaste" element={<AddWasteType />} />
           
-
+          <Route path="/wtable" element={<WasteRequestsTable />} />
           <Route path="/payments" element={<PaymentList/>}/>
 
           
@@ -51,6 +52,7 @@ function App() {
             <Route path="managerefund" element={<ManageRefund />} />
             <Route path="addwaste" element={<AddWasteType />} />
             <Route path="refund" element={<RefundPage/>}/>
+            <Route path="wtable" element={<WasteRequestsTable />} />
           </Route>
 
           

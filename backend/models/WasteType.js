@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 
 const WasteTypeSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' }, // Linking to the user
+  // userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' }, // Linking to the user
   typeName: { type: String, required: true },
   rate: { type: Number, required: true },
   description: { type: String, required: true },

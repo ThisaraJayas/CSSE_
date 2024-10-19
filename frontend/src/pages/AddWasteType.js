@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../middleware/AuthContext';
+// import { useAuth } from '../middleware/AuthContext';
 
 export default function AddWasteType() {
     const [typeName, setTypeName] = useState('');
@@ -8,14 +8,14 @@ export default function AddWasteType() {
     const [maxWeight, setMaxWeight] = useState(''); // New state for max weight
     const [refundableType, setRefundableType] = useState(false);
     const [basedOnWeight, setBasedOnWeight] = useState(false);
-    const { user } = useAuth();
-    const userId = user?._id;
+    // const { user } = useAuth();
+    // const userId = user?._id;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const wasteTypeData = {
-            userId,
+            // userId,
             typeName,
             rate,
             description,

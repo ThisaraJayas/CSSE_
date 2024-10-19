@@ -2,11 +2,11 @@ import WasteType from "../models/WasteType.js";
 
 
 export const createWasteType = async (req, res) => {
-  const { userId, typeName, rate, description, maxWeight, refundableType, basedOnWeight } = req.body;
+  const { typeName, rate, description, maxWeight, refundableType, basedOnWeight } = req.body;
 
   try {
       const newWasteType = new WasteType({
-          userId, // Assuming you're sending the userId in the request body
+        //   userId, // Assuming you're sending the userId in the request body
           typeName,
           rate,
           description,

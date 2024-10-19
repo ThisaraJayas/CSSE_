@@ -20,6 +20,14 @@ const Dashboard = () => {
             </li>
             <li>
               <Link
+                to="/dashboard/wtable"
+                className="flex items-center text-gray-700 hover:text-blue-600 transition duration-200"
+              >
+                <FaClipboardList className="mr-1" /> Waste Request
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/dashboard/managerefund"
                 className="flex items-center text-gray-700 hover:text-blue-600 transition duration-200"
               >
