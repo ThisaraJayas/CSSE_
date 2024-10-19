@@ -7,11 +7,8 @@ import userRoutes from './routes/userRoutes.js'; // Import user routes
 import { authRoutes } from './routes/authRoutes.js';
 
 import WasteReqRoute from './routes/wasteRequestRoutes.js';
-
-import WasteReqRoute from './routes/wasteRequestRoutes.js'
-import WasteTypeRoute from './routes/wasteTypeRoutes.js'
-import RefundRoute from './routes/refundRoute.js'
-
+import WasteTypeRoute from './routes/wasteTypeRoutes.js';
+import RefundRoute from './routes/refundRoute.js';
 
 dotenv.config();
 const app = express();

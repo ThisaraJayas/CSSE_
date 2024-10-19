@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import { useAuth } from '../middleware/AuthContext';
 import API_ENDPOINTS from '../config';
+import { AuthContext } from '../middleware/AuthContext';
 
 const AddBin = () => {
   const [name, setName] = useState('');

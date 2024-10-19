@@ -1,61 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams to extract URL parameters
-import axios from 'axios';
-import API_ENDPOINTS from '../config';
+// import React from 'react';
+// import { render, screen, waitFor } from '@testing-library/react';
+// import { MemoryRouter as Router, Route } from 'react-router-dom';
+// import BinDetails from '../components/BinDetailsModal'; // Ensure the correct import path
+// import axios from 'axios';
+// import MockAdapter from 'axios-mock-adapter';
 
-const BinDetails = () => {
-  const { binId } = useParams(); // Get binId from the URL
-  const [bin, setBin] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// const mock = new MockAdapter(axios);
 
-  useEffect(() => {
-    const fetchBinDetails = async () => {
-      try {
-        const response = await axios.get(API_ENDPOINTS.VERIFY_BIN(binId)); // Using the API endpoint with binId
-        setBin(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch bin details');
-        setLoading(false);
-      }
-    };
+// describe('BinDetails Component', () => {
+//   beforeEach(() => {
+//     // Reset the mock before each test
+//     mock.reset();
+//   });
 
-    fetchBinDetails();
-  }, [binId]);
+//   it('shows loading message while fetching data', () => {
+//     // Render the BinDetails component with a mock route
+//     render(
+//       <Router initialEntries={['/bins/1']}>
+//         <Route path="/bins/:binId">
+//           <BinDetails />
+//         </Route>
+//       </Router>
+//     );
 
-  if (loading) {
-    return <p>Loading bin details...</p>;
-  }
+//     // Check if the loading message is displayed
+//     expect(screen.getByText(/loading bin details/i)).toBeInTheDocument();
+//   });
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+//   it('displays error message on fetch failure', async () => {
+//     // Simulate a server error response
+//     mock.onGet('/api/bins/1').reply(500);
 
-  if (!bin) {
-    return <p>No bin details found.</p>;
-  }
+//     // Render the BinDetails component with the mock route
+//     render(
+//       <Router initialEntries={['/bins/1']}>
+//         <Route path="/bins/:binId">
+//           <BinDetails />
+//         </Route>
+//       </Router>
+//     );
 
-  return (
-    <div className="bin-details bg-white shadow-md rounded-lg p-4 mx-4">
-      <h3 className="text-lg font-semibold text-gray-700 mb-4">Bin Details</h3>
-      <div className="bin-info mb-4">
-        <p className="text-gray-700 font-medium">Bin Type: {bin.binType}</p>
-        <p className="text-sm text-gray-500">
-          Location: Latitude {bin.location.lat}, Longitude {bin.location.lng}
-        </p>
-        <p className="text-sm text-gray-500">Owner ID: {bin.ownerId}</p>
-        <p className="text-sm text-gray-500">
-          Status: {bin.isVerified ? 'Verified' : 'Not Verified'}
-        </p>
-      </div>
-      {bin.qrCode && (
-        <div className="qr-code-section mt-4">
-          <img src={bin.qrCode} alt="QR Code" className="w-24 h-24" />
-        </div>
-      )}
-    </div>
-  );
-};
+//     // Wait for the error message to be displayed
+//     await waitFor(() =>
+//       expect(
+//         screen.getByText(/failed to fetch bin details/i)
+//       ).toBeInTheDocument()
+//     );
+//   });
 
-export default BinDetails;
+//   it('displays bin details when data is fetched successfully', async () => {
+//     // Mock the successful response with bin data
+//     const mockBinData = {
+//       binType: 'Recycling',
+//       location: { lat: 6.9271, lng: 79.8612 },
+//       ownerId: '12345',
+//       isVerified: true,
+//       qrCode: 'http://example.com/qrcode.png',
+//     };
+
+//     // Simulate a successful response
+//     mock.onGet('/api/bins/1').reply(200, mockBinData);
+
+//     // Render the BinDetails component with the mock route
+//     render(
+//       <Router initialEntries={['/bins/1']}>
+//         <Route path="/bins/:binId">
+//           <BinDetails />
+//         </Route>
+//       </Router>
+//     );
+
+//     // Wait for the bin type to be displayed
+//     await waitFor(() =>
+//       expect(screen.getByText(/bin type/i)).toBeInTheDocument()
+//     );
+
+//     // Check that the bin details are displayed correctly
+//     expect(screen.getByText(/bin type: recycling/i)).toBeInTheDocument();
+//     expect(
+//       screen.getByText(/location: latitude 6.9271, longitude 79.8612/i)
+//     ).toBeInTheDocument();
+//     expect(screen.getByText(/owner id: 12345/i)).toBeInTheDocument();
+//     expect(screen.getByText(/status: verified/i)).toBeInTheDocument();
+//     expect(screen.getByAltText(/qr code/i)).toHaveAttribute(
+//       'src',
+//       'http://example.com/qrcode.png'
+//     );
+//   });
+// });

@@ -1,29 +1,29 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const TabSection = ({ activeTab, onTabChange }) => {
   const navigate = useNavigate();
 
-  const tabs = ["Home", "Bin", "Collections", "Payments", "WasteCollection"];
+  const tabs = ['Home', 'Bin', 'Collections', 'Payments', 'WasteCollection'];
 
   const handleTabChange = (tab) => {
     onTabChange(tab);
     // Change the URL based on the selected tab
     switch (tab) {
-      case "Home":
-        navigate("/home");
+      case 'Home':
+        navigate('/home');
         break;
-      case "Bin":
-        navigate("/bin");
+      case 'Bin':
+        navigate('/bin');
         break;
-      case "Collections":
-        navigate("/collections");
+      case 'Collections':
+        navigate('/collections');
         break;
-      case "Payments":
-        navigate("/payments");
+      case 'Payments':
+        navigate('/payments');
         break;
-      case "WasteCollection":
-        navigate("/wastecollection");
+      case 'WasteCollection':
+        navigate('/wastecollection');
         break;
       default:
         break;
@@ -38,8 +38,8 @@ const TabSection = ({ activeTab, onTabChange }) => {
             key={tab}
             className={`tab py-3 px-4 text-base font-semibold tracking-wide cursor-pointer transition-all duration-300 whitespace-nowrap w-full text-center ${
               activeTab === tab
-                ? "bg-blue-400 text-white shadow-md"
-                : "text-blue-800 hover:bg-blue-300 active:bg-blue-300"
+                ? 'bg-blue-400 text-white shadow-md'
+                : 'text-blue-800 hover:bg-blue-300 active:bg-blue-300'
             }`}
             onClick={() => handleTabChange(tab)}
           >
@@ -51,6 +51,4 @@ const TabSection = ({ activeTab, onTabChange }) => {
   );
 };
 
-  }}
 export default TabSection;
-
